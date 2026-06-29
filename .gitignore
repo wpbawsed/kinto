@@ -1,0 +1,26 @@
+# Node
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# Env
+.env
+.env.docker
+.env.local
+
+# Build / cache
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Flutter
+apps/mobile/build/
+apps/mobile/.dart_tool/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/ios/Pods/
+apps/mobile/android/.gradle/
+
+# Keep migrations under version control (do NOT ignore)
+!apps/api/src/db/migrations/

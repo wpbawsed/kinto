@@ -1,0 +1,24 @@
+{
+  "name": "kinto",
+  "version": "0.1.0",
+  "private": true,
+  "description": "長者友善資源地圖 — Mono-repo (Fastify API + BullMQ worker + Flutter app)",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter @kinto/api dev\" \"pnpm --filter @kinto/worker dev\"",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "ioredis": "5.11.1"
+    }
+  }
+}
