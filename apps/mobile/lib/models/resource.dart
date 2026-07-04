@@ -28,6 +28,18 @@ extension ResourceTypeX on ResourceType {
         ResourceType.ltcAbc => AppColors.ltcAbc,
         ResourceType.accessibleToilet => AppColors.accessibleToilet,
       };
+
+  Color get lightBg => switch (this) {
+        ResourceType.aed => AppColors.aedBg,
+        ResourceType.ltcAbc => AppColors.ltcAbcBg,
+        ResourceType.accessibleToilet => AppColors.toiletBg,
+      };
+
+  IconData get icon => switch (this) {
+        ResourceType.aed => Icons.medical_services_rounded,
+        ResourceType.ltcAbc => Icons.home_rounded,
+        ResourceType.accessibleToilet => Icons.accessible_rounded,
+      };
 }
 
 class Resource {
@@ -39,6 +51,13 @@ class Resource {
   final double? lat;
   final double? lng;
   final int? distanceM;
+  final bool verified;
+
+  /// 開放時間顯示文字／目前是否開放中。`open_hours` 目前是後端未定義結構的
+  /// JSONB 欄位（見 packages/shared schema），API 尚未提供「是否開放中」的計算結果，
+  /// 這兩個欄位僅供畫面展示用的假資料／未來串接使用，不會由 [fromJson] 解析。
+  final String? openHoursText;
+  final bool? isOpenNow;
 
   const Resource({
     required this.id,
@@ -49,6 +68,9 @@ class Resource {
     this.lat,
     this.lng,
     this.distanceM,
+    this.verified = false,
+    this.openHoursText,
+    this.isOpenNow,
   });
 
   factory Resource.fromJson(Map<String, dynamic> json) {
@@ -61,6 +83,7 @@ class Resource {
       lat: (json['lat'] as num?)?.toDouble(),
       lng: (json['lng'] as num?)?.toDouble(),
       distanceM: (json['distance_m'] as num?)?.toInt(),
+      verified: json['verified'] as bool? ?? false,
     );
   }
 }

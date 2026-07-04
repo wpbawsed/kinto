@@ -8,9 +8,15 @@ extension ReportTypeX on ReportType {
       };
 
   String get label => switch (this) {
-        ReportType.wrongLocation => '位置錯誤',
-        ReportType.closed => '已停用',
+        ReportType.wrongLocation => '位置標錯了',
+        ReportType.closed => '已經停用 / 拆除',
         ReportType.wrongInfo => '資訊有誤',
+      };
+
+  String get description => switch (this) {
+        ReportType.wrongLocation => '地圖上的位置與實際不符',
+        ReportType.closed => '這個設施已不存在',
+        ReportType.wrongInfo => '電話、開放時間等不正確',
       };
 }
 
