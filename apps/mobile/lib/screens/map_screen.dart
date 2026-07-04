@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import '../models/resource.dart';
 import '../widgets/filter_chip_row.dart';
 import '../theme/app_theme.dart';
 import 'search_screen.dart';
 
-/// 地圖主頁（prd §F01 / §4.3）。
-///
-/// 注意：實際地圖以 google_maps_flutter 的 GoogleMap 元件渲染，
-/// 需設定 Google Maps API Key 後才能顯示。此處先放置篩選列與骨架，
-/// 待平台原生資料夾（android/ios）由 `flutter create` 產生後接上。
+const _kTaipei = LatLng(25.0478, 121.5319);
+
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
@@ -18,6 +17,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   Set<ResourceType> _selectedTypes = ResourceType.values.toSet();
+  final _mapController = MapController();
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +45,26 @@ class _MapScreenState extends State<MapScreen> {
             selected: _selectedTypes,
             onChanged: (next) => setState(() => _selectedTypes = next),
           ),
-          const Expanded(
-            child: Center(
-              // TODO: 換成 GoogleMap(...)，以 GPS 為中心、顯示 ResourcePin
-              child: Text('地圖區（待接 google_maps_flutter）'),
+          Expanded(
+            child: FlutterMap(
+              mapController: _mapController,
+              options: const MapOptions(
+                initialCenter: _kTaipei,
+                initialZoom: 13,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.kinto.app',
+                ),
+              ],
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.report,
-        onPressed: () {/* TODO: 緊急撥打 119（prd F07） */},
+        onPressed: () {},
         child: const Icon(Icons.emergency),
       ),
     );
