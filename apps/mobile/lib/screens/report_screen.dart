@@ -48,7 +48,7 @@ class _ReportScreenState extends State<ReportScreen> {
         note: _noteController.text,
       ));
       if (!mounted) return;
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ThankYouScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const ThankYouScreen()));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

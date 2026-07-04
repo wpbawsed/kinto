@@ -109,7 +109,7 @@ class _FavoriteCard extends StatelessWidget {
                     Text(
                       [
                         if (resource.address != null) resource.address!,
-                        if (resource.distanceM != null) _formatDistance(resource.distanceM!),
+                        if (resource.distanceM != null) formatDistance(resource.distanceM!),
                       ].join(' · '),
                       style: AppTextStyles.caption.copyWith(fontSize: 13),
                     ),
@@ -160,6 +160,4 @@ class _FavoriteCard extends StatelessWidget {
       ),
     );
   }
-
-  String _formatDistance(int meters) => meters >= 1000 ? '${(meters / 1000).toStringAsFixed(1)} km' : '$meters m';
 }

@@ -3,6 +3,10 @@ import '../theme/app_theme.dart';
 
 enum ResourceType { aed, ltcAbc, accessibleToilet }
 
+/// 距離顯示格式化：< 1000m 顯示公尺，否則顯示公里（1 位小數）。
+String formatDistance(int meters) =>
+    meters >= 1000 ? '${(meters / 1000).toStringAsFixed(1)} km' : '$meters m';
+
 ResourceType resourceTypeFromApi(String raw) {
   switch (raw) {
     case 'aed':

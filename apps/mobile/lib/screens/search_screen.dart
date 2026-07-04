@@ -205,7 +205,7 @@ class _ResultCard extends StatelessWidget {
                     Text(
                       [
                         if (resource.address != null) resource.address!,
-                        if (resource.distanceM != null) '${resource.distanceM} m',
+                        if (resource.distanceM != null) formatDistance(resource.distanceM!),
                       ].join(' · '),
                       style: AppTextStyles.caption.copyWith(fontSize: 13),
                     ),

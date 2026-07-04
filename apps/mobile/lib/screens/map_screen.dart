@@ -34,8 +34,14 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 
-  List<Resource> get _visibleResources =>
-      sampleResources.where((r) => _selectedTypes.contains(r.type)).toList();
+  // prd §F01 預設半徑 1km：地圖只顯示／統計「附近」資源，較遠的樣本
+  // （如收藏頁的跨區項目）不應出現在地圖 Pin 或附近統計中。
+  static const _nearbyRadiusM = 1000;
+
+  List<Resource> get _visibleResources => sampleResources
+      .where((r) => _selectedTypes.contains(r.type))
+      .where((r) => r.distanceM == null || r.distanceM! <= _nearbyRadiusM)
+      .toList();
 
   void _openDetail(Resource resource) {
     showModalBottomSheet(
@@ -102,7 +108,7 @@ class _MapScreenState extends State<MapScreen> {
               CircleLayer(circles: [
                 CircleMarker(
                   point: _kTaipei,
-                  radius: 250,
+                  radius: 1000, // prd §F01 預設半徑 1km
                   useRadiusInMeter: true,
                   color: AppColors.primaryCta.withValues(alpha: 0.1),
                   borderColor: AppColors.primaryCta.withValues(alpha: 0.4),
@@ -259,7 +265,7 @@ class _MapScreenState extends State<MapScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('附近 ${visible.length} 處資源', style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
-                        const Text('大同區 · 1 km', style: TextStyle(fontSize: 14, color: AppColors.textTertiary, fontWeight: FontWeight.w500)),
+                        const Text('信義區 · 1 km', style: TextStyle(fontSize: 14, color: AppColors.textTertiary, fontWeight: FontWeight.w500)),
                       ],
                     ),
                     const SizedBox(height: 16),
